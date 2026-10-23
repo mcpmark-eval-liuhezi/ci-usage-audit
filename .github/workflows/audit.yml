@@ -1,0 +1,20 @@
+name: CI Usage Audit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  minimal-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write run summary
+        run: |
+          printf 'repository: %s\n' "$GITHUB_REPOSITORY" > run-summary.txt
+          printf 'timestamp: %s\n' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> run-summary.txt
+          cat run-summary.txt
+
+      - name: Upload run summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-summary
+          path: run-summary.txt
